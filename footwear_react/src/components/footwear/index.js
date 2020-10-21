@@ -14,7 +14,8 @@ import {
 import './index.css';
 import footflex from './footflex.jpeg';
 import flex from './flex.jpeg';
-import footwear from './footwear1.jpg';
+import footwear1 from './footwear1.jpg';
+import footwear from './footwear.webp';
 import men from './featuredmen.jpg';
 import foot from './foot.jpg';
 import product from './product.jpg';
@@ -24,6 +25,9 @@ import tala from './tala.jpeg';
 import sneakers from './sneakers.jpeg';
 import maca from './maca.jpeg';
 import shoe from './shoe.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 export default class Footwear extends Component {
     render() {
@@ -61,7 +65,11 @@ export default class Footwear extends Component {
                                             <a href="index.js">CONTACT</a>
                                         </li>
                                         <li className="cart">
-                                            <a href="index.js">CART</a>
+                                            <a href="index.js">
+                                                <FontAwesomeIcon icon={faCartPlus} />{' '}
+                                                CART [0]
+                                            </a>
+                                            
                                         </li>
                                     </ul>
                                 </Col>
@@ -134,6 +142,12 @@ export default class Footwear extends Component {
                                             <a href="#">WOMEN'S BOOTS SHOES MACA</a>
                                         </h2>
                                         <span className="price">$139.00</span>
+                                        <div className="addtocartbtn">
+                                            <Button variant="primary">
+                                                Add to cart {' '}
+                                                <FontAwesomeIcon icon={faCartPlus} />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>
@@ -147,6 +161,12 @@ export default class Footwear extends Component {
                                             <a href="#">WOMEN'S MINAM MEAGHAN</a>
                                         </h2>
                                         <span className="price">$139.00</span>
+                                        <div className="addtocartbtn">
+                                            <Button variant="primary">
+                                                Add to cart {' '}
+                                                <FontAwesomeIcon icon={faCartPlus} />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>
@@ -160,6 +180,12 @@ export default class Footwear extends Component {
                                             <a href="#">MEN'S TAJA COMMISSIONER</a>
                                         </h2>
                                         <span className="price">$139.00</span>
+                                        <div className="addtocartbtn">
+                                            <Button variant="primary">
+                                                Add to cart {' '}
+                                                <FontAwesomeIcon icon={faCartPlus} />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>
@@ -173,6 +199,12 @@ export default class Footwear extends Component {
                                             <a href="#">RUSS MEN'S SNEAKERS</a>
                                         </h2>
                                         <span className="price">$139.00</span>
+                                        <div className="addtocartbtn">
+                                            <Button variant="primary">
+                                                Add to cart {' '}
+                                                <FontAwesomeIcon icon={faCartPlus} />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>
@@ -186,6 +218,12 @@ export default class Footwear extends Component {
                                             <a href="#">WOMEN'S BOOTS SHOES MACA</a>
                                         </h2>
                                         <span className="price">$139.00</span>
+                                        <div className="addtocartbtn">
+                                            <Button variant="primary">
+                                                Add to cart {' '}
+                                                <FontAwesomeIcon icon={faCartPlus} />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>
@@ -199,8 +237,25 @@ export default class Footwear extends Component {
                                             <a href="#">Women's Boots Shoes Maca</a>
                                         </h2>
                                         <span className="price">$139.00</span>
+                                        <div className="addtocartbtn">
+                                            <Button variant="primary">
+                                                Add to cart {' '}
+                                                <FontAwesomeIcon icon={faCartPlus} />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
+                            </Col>
+                        </div>
+                        <div className="row">
+                            <Col md={12} className="text-center">
+                                <p>
+                                    <a href="#">
+                                        <Button variant="primary">
+                                            Shop All Products
+                                        </Button>
+                                    </a>
+                                </p>
                             </Col>
                         </div>
                     </div>

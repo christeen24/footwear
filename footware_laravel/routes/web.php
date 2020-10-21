@@ -7,6 +7,8 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FootwearController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +25,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//routes of footwear
 Route::get('footwears', 'App\Http\Controllers\FootwearController@index');
 
 Route::get('footwears/{id}', 'App\Http\Controllers\FootwearController@show');
 
-
+//routes of customer
 Route::get('customers', 'App\Http\Controllers\CustomerController@index');
 
 Route::get('customers/{id}', 'App\Http\Controllers\CustomerController@show');
+
+//routes of order
+Route::get('orders', 'App\Http\Controllers\OrderController@index');
+
+Route::post('orders','App\Http\Controllers\OrderController@store');
+
+Route::get('orders/{id}', 'App\Http\Controllers\OrderController@show');
+

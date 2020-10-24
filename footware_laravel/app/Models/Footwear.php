@@ -9,6 +9,6 @@ class Footwear extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "name", "price"
+        "name", "price", "type"
     ];
 }

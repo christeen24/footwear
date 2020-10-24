@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string("item_id")->nullable();
             $table->string("customer_id")->nullable();
-            $table->string("gross_amount")->nullable();
+            $table->double("gross_amount")->change();
             $table->string("date")->nullable();
             $table->timestamps();
         });

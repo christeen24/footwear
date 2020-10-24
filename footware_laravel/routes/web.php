@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FootwearController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +40,11 @@ Route::get('orders', 'App\Http\Controllers\OrderController@index');
 
 Route::post('orders','App\Http\Controllers\OrderController@store');
 
+
 Route::get('orders/{id}', 'App\Http\Controllers\OrderController@show');
 
+Route::post("user-signup", "App\Http\Controllers\UserController@userSignUp");
+
+Route::post("user-login", "App\Http\Controllers\UserController@userLogin");
+
+Route::get("user/{email}", "App\Http\Controllers\UserController@userDetail");

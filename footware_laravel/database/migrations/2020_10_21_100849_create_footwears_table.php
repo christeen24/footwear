@@ -16,7 +16,7 @@ class CreateFootwearsTable extends Migration
         Schema::create('footwears', function (Blueprint $table) {
             $table->id();
             $table->string("name")->nullable();
-            $table->string("price")->nullable();
+            $table->double("price")->nullable();
             $table->timestamps();
         });
     }

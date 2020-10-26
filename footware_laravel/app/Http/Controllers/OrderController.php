@@ -73,15 +73,6 @@ class OrderController extends Controller
                 return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! failed to create."]);
             }
         }
-
-
-        // $order = Order::create($orderArray);
-        // if(!is_null($order)) {            
-        //     return response()->json(["status" => $this->status, "success" => true, "message" => "Order record created successfully", "data" => $order]);
-        // }    
-        // else {
-        //     return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! failed to create."]);
-        // }
         
     }
 

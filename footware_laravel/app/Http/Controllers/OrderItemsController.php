@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Order;
+use App\Models\OrderItems;
 use Illuminate\Support\Facades\Validator;
 
-class OrderController extends Controller
+class OrderItemsController extends Controller
 {
     private $status = 200;
 
     public function index()
     {
-        $orders = Order::all();
-        if (count($orders) > 0) {
-            return response()->json(["status" => $this->status, "success" => true, "count" => count($orders), "data" => $orders]);
+        $orderItems = OrderItems::all();
+        if (count($orderItems) > 0) {
+            return response()->json(["status" => $this->status, "success" => true, "count" => count($orderItems), "data" => $orderItems]);
         } else {
             return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! no record found"]);
         }
@@ -24,14 +24,8 @@ class OrderController extends Controller
     {
         $validator = Validator::make($request->all(),
         [
-            'fname' => 'required',
-            'lname' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-            'country' => 'required',
-            'postalcode' => 'required',
-            'items' => 'required',
-            'price' => 'required'
+            'order_id' => 'required',
+            'item_id' => 'required'
         ]);
         
         if($validator->fails()) {
@@ -39,23 +33,16 @@ class OrderController extends Controller
         }
 
         $id = $request->id;
-        $orderArray = array(
-            "fname" => $request->fname,
-            "lname" => $request->lname,
-            "email" => $request->email,
-            "company" => $request->company,
-            "address" => $request->address,
-            "country" => $request->country,
-            "postalcode" => $request->postalcode,
-            "items" => $request->items,
-            "price" => $request->price
+        $orderItemsArray = array(
+            "order_id" => $request->order_id,
+            "item_id" => $request->item_id
             
         );
 
         if($id !="") {           
-            $order = Order::find($id);
-            if(!is_null($order)){
-                $updated_status = Order::where("id", $id)->update($orderArray);
+            $orderItems = OrderItems::find($id);
+            if(!is_null($orderItems)){
+                $updated_status = OrderItems::where("id", $id)->update($orderItemsArray);
                 if($updated_status == 1) {
                     return response()->json(["status" => $this->status, "success" => true, "message" => "order details updated successfully"]);
                 }
@@ -65,9 +52,9 @@ class OrderController extends Controller
             }                   
         }
         else {
-            $order = Order::create($orderArray);
-            if(!is_null($order)) {            
-                return response()->json(["status" => $this->status, "success" => true, "message" => "order record created successfully", "data" => $order]);
+            $orderItems = OrderItems::create($orderItemsArray);
+            if(!is_null($orderItems)) {            
+                return response()->json(["status" => $this->status, "success" => true, "message" => "order record created successfully", "data" => $orderItems]);
             }    
             else {
                 return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! failed to create."]);
@@ -87,10 +74,10 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::find($id);
+        $orderItems = OrderItems::find($id);
 
-        if(!is_null($order)) {
-            return response()->json(["status" => $this->status, "success" => true, "data" => $order]);
+        if(!is_null($orderItems)) {
+            return response()->json(["status" => $this->status, "success" => true, "data" => $orderItems]);
         }
         else {
             return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! no Order found"]);

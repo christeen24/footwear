@@ -3,25 +3,14 @@ import {
     Button, Col
 } from "reactstrap";
 import './index.css';
-import footflex from './images/footflex.jpeg';
-import flex from './images/flex.jpeg';
 import footwear1 from './images/footwear.webp';
 import men from './images/featuredmen.jpg';
 import foot from './images/foot.jpg';
-import product from './images/product.jpg';
 import boots from './images/boots.webp';
-import minam from './images/minam.jpg';
-import tala from './images/tala.jpeg';
-import sneakers from './images/sneakers.jpeg';
-import maca from './images/maca.jpeg';
-import shoe from './images/shoe.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import Cart from "./Cart";
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import Footer from './Footer';
 
 export default class Footwear extends Component {
@@ -59,7 +48,6 @@ export default class Footwear extends Component {
         let path = '/cart';
         this.props.history.push(path);
         window.location.reload();
-        // window.location.href = window.location.href('http://localhost:3000/cart');
     }
 
     componentDidMount() {
@@ -87,12 +75,12 @@ export default class Footwear extends Component {
 
     render() {
 
-        const { footwears, addFootwearToCart } = this.state;
+        const { footwears } = this.state;
         let footwearsDetails = [];
         if (footwears.length) {
             footwearsDetails = footwears.map((footwear) => {
                 return (
-                    <Col lg={3} mb={4} className="text-center prods" key={footwear.id}>
+                    <Col lg={3} mb={4} md={4} className="text-center prods" key={footwear.id}>
                         <div className="product-entry border">
                             <a href="#" className="prod-img">
                                 <img src={boots} alt="footflex" />

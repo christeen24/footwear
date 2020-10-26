@@ -1,23 +1,7 @@
 import React, { Component } from "react";
 import './index.css';
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    FormGroup, Form,
-    Label,
-    Input,
-    Row,
-    Col
-} from "reactstrap";
-import axios from "axios";
 import { faDribbble, faFacebook, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartArrowDown, faCartPlus, faEraser, faFan, faRecycle, faRemoveFormat, faTimesCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
-import footwear1 from './images/footwear.webp';
-import { useStore } from "react-redux";
 
 export default class Footer extends Component {
 
@@ -29,7 +13,7 @@ export default class Footer extends Component {
                         <div className="col footer-col footwear-widget">
                             <h4>About Footwear</h4>
                             <p>
-                            Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life
+                                Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life
                             </p>
                             <ul className="footwear-social-icons">
                                 <li>
@@ -39,17 +23,17 @@ export default class Footer extends Component {
                                 </li>
                                 <li>
                                     <a href="#">
-                                    <FontAwesomeIcon icon={faFacebook} />
+                                        <FontAwesomeIcon icon={faFacebook} />
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#">
-                                    <FontAwesomeIcon icon={faLinkedin} />
+                                        <FontAwesomeIcon icon={faLinkedin} />
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#">
-                                    <FontAwesomeIcon icon={faDribbble} />
+                                        <FontAwesomeIcon icon={faDribbble} />
                                     </a>
                                 </li>
                             </ul>
@@ -154,17 +138,17 @@ export default class Footer extends Component {
                                 </li>
                                 <li>
                                     <a href="tel://12345678920">
-                                    + 1235 2355 98
+                                        + 1235 2355 98
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#">
-                                    INFO@YOURSITE.COM
+                                        INFO@YOURSITE.COM
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#">
-                                    YOURSITE.COM
+                                        YOURSITE.COM
                                     </a>
                                 </li>
                             </ul>
@@ -175,5 +159,5 @@ export default class Footer extends Component {
         );
 
     }
-   
+
 }

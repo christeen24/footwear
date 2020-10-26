@@ -2,25 +2,131 @@ import React, { Component } from "react";
 
 import {
     Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    FormGroup, Form,
-    Label,
-    Input,
-    Row,
-    Col
+    Col,
+    Input
 } from "reactstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartArrowDown, faCartPlus, faEraser, faRecycle, faRemoveFormat, faShoppingBag, faShoppingBasket, faTimesCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import footwear1 from './images/footwear.webp';
-import { useStore } from "react-redux";
 import Footer from './Footer';
 import './index.css';
 
 export default class Checkout extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            checkoutData: {
+                fname: "",
+                lname: "",
+                email: "",
+                company: "",
+                address: "",
+                country: "",
+                postalcode: "",
+                price: "",
+                items: ""
+            },
+            orderItems: {
+                order_id: "",
+                item_id: []
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.loadOrderDetails();
+    }
+
+    onChangeCheckoutHandler = (event) => {
+
+        let { checkoutData } = this.state;
+        checkoutData[event.target.name] = event.target.value;
+        this.setState({ checkoutData });
+
+    };
+
+
+    completeOrder = () => {
+        console.log(JSON.parse(localStorage.getItem('Details')));
+
+        axios.get("http://localhost:8000/orders").then((response) => {
+            if (response.status === 200) {
+                this.setState({
+                    orders: response.data.data ? response.data.data : [],
+                });
+            }
+        });
+
+        console.log(this.state.checkoutData);
+
+
+        axios.post("http://localhost:8000/orders",
+            this.state.checkoutData
+        )
+            .then((response) => {
+                const { orders } = this.state;
+                const newOrders = [...orders];
+                newOrders.push(response.data);
+                this.setState({
+                    order_id: response.data.data.id ? response.data.data.id : "",
+                });
+                localStorage.setItem('OrderId', JSON.stringify(response.data.data.id));
+                this.setState(
+                    {
+                        orders: newOrders,
+                        checkoutData: {
+                            fname: "",
+                            lname: "",
+                            email: "",
+                            company: "",
+                            address: "",
+                            country: "",
+                            postalcode: "",
+                            price: "",
+                            items: ""
+                        },
+                    },
+                    () => this.orderstatus()
+                );
+                localStorage.removeItem('Details');
+                localStorage.removeItem('subTotal');
+            })
+            .catch(error => console.log(error));
+
+    }
+
+    loadOrderDetails() {
+        let orderPrice = JSON.parse(localStorage.getItem('subTotal')) + 300;
+
+        this.setState(prevState => ({
+            checkoutData: {
+                ...prevState.checkoutData,
+                price: orderPrice
+            }
+        }));
+
+        let orderDetails = JSON.parse(localStorage.getItem('Details'));
+        let item_ids = [];
+        for (var i = 0; i < orderDetails.length; i++) {
+            item_ids.push(orderDetails[i].id);
+        }
+
+        this.setState(prevState => ({
+            checkoutData: {
+                ...prevState.checkoutData,
+                items: item_ids.toString()
+            }
+        }));
+    }
+
+    orderstatus() {
+        let path = '/orderstatus';
+        this.props.history.push(path);
+        window.location.reload();
+    }
+
     render() {
 
         let cartDetails = [];
@@ -95,49 +201,110 @@ export default class Checkout extends Component {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <input type="text" id="fname" className="form-control" placeholder="First Name" />
+                                                <Input
+                                                    name="fname"
+                                                    id="fname"
+                                                    className="form-control"
+                                                    placeholder="First Name"
+                                                    value={this.state.checkoutData.fname}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <input type="text" id="lname" className="form-control" placeholder="Last Name" />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-sm-12">
-                                                <div className="form-group">
-                                                    <input type="text" id="email" className="form-control" placeholder="Your email address" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-12">
-                                            <div className="form-group">
-                                                <input type="text" id="company" className="form-control" placeholder="Company (Optional)" />
+                                                <Input
+                                                    name="lname"
+                                                    id="lname"
+                                                    className="form-control"
+                                                    placeholder="Last Name"
+                                                    value={this.state.checkoutData.lname}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
                                             </div>
                                         </div>
                                         <div className="col-sm-12">
                                             <div className="form-group">
-                                                <input type="text" id="address" className="form-control" placeholder="Address" />
+                                                <Input
+                                                    name="email"
+                                                    id="email"
+                                                    className="form-control"
+                                                    placeholder="Your email address"
+                                                    value={this.state.checkoutData.email}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
                                             </div>
                                         </div>
                                         <div className="col-sm-12">
                                             <div className="form-group">
-                                                <input type="text" id="city" className="form-control" placeholder="City" />
+                                                <Input
+                                                    name="company"
+                                                    id="company"
+                                                    className="form-control"
+                                                    placeholder="Company (Optional)"
+                                                    value={this.state.checkoutData.company}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-12">
+                                            <div className="form-group">
+                                                <Input
+                                                    name="address"
+                                                    id="address"
+                                                    className="form-control"
+                                                    placeholder="Address"
+                                                    value={this.state.checkoutData.address}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-12">
+                                            <div className="form-group">
+                                                <Input
+                                                    name="city"
+                                                    id="city"
+                                                    className="form-control"
+                                                    placeholder="City"
+                                                    value={this.state.checkoutData.city}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <input type="text" id="country" className="form-control" placeholder="Country" />
+                                                <Input
+                                                    name="country"
+                                                    id="country"
+                                                    className="form-control"
+                                                    placeholder="Country"
+                                                    value={this.state.checkoutData.country}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <input type="text" id="postalcode" className="form-control" placeholder="Postal Code" />
+                                                <Input
+                                                    name="postalcode"
+                                                    id="postalcode"
+                                                    className="form-control"
+                                                    placeholder="Postal Code"
+                                                    value={this.state.checkoutData.postalcode}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
                                             </div>
                                         </div>
                                         <div className="col-sm-12">
                                             <div className="form-group">
-                                                <input type="text" id="phone" className="form-control" placeholder="Phone" />
+                                                <Input
+                                                    name="phone"
+                                                    id="phone"
+                                                    className="form-control"
+                                                    placeholder="Phone"
+                                                    value={this.state.checkoutData.phone}
+                                                    onChange={this.onChangeCheckoutHandler}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -184,7 +351,7 @@ export default class Checkout extends Component {
                             <div className="col-sm-12 checkout">
                                 <span>
                                     <Button variant="primary"
-
+                                        onClick={() => this.completeOrder()}
                                     >
                                         Complete the order {' '}
                                         <FontAwesomeIcon icon={faShoppingBag} />

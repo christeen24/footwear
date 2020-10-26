@@ -1,9 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import Navigation from "./components/footwear/navigation";
-import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Footwear from './components/footwear/Footwear';
 import Men from './components/footwear/Men';
 import Women from './components/footwear/Women';
@@ -11,6 +10,7 @@ import About from './components/footwear/About';
 import Contact from './components/footwear/Contact';
 import Cart from './components/footwear/Cart';
 import Checkout from './components/footwear/Checkout';
+import OrderStatus from './components/footwear/OrderStatus';
 
 
 
@@ -28,6 +28,7 @@ function App() {
         <Route path="/contact"  component={Contact}/>
         <Route path="/cart"  component={Cart}/>
         <Route path="/checkout" component={Checkout} />
+        <Route path="/orderstatus" component={OrderStatus} />
       </Switch>
       </Router>
       

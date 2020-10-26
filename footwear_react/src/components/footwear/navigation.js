@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import {
-    Button,
     Col
 } from "reactstrap";
-import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';

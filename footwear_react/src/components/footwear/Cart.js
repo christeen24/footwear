@@ -2,23 +2,13 @@ import React, { Component } from "react";
 
 import {
     Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    FormGroup, Form,
-    Label,
-    Input,
-    Row,
     Col
 } from "reactstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartArrowDown, faCartPlus, faEraser, faRecycle, faRemoveFormat, faShoppingBag, faTimesCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus, faShoppingBag, faTrash } from '@fortawesome/free-solid-svg-icons';
 import footwear1 from './images/footwear.webp';
-import { useStore } from "react-redux";
 import Footer from './Footer';
-import Footwear from "./Footwear";
 
 
 export default class Cart extends Component {
@@ -32,8 +22,29 @@ export default class Cart extends Component {
                 price: ""
             },
             subTotal: 0,
+            footwears: [],
+            addFootwearData: {
+                id: "",
+                name: "",
+                price: ""
+            },
         }
 
+    }
+
+    addFootwearToCart = (id, name, price) => {
+
+        var detail = { id: id, name: name, price: price };
+        localStorage.setItem('Detail', JSON.stringify(detail));
+
+        const itemExists = obj => obj.id === detail.id;
+        var storages = JSON.parse(localStorage.getItem('Details')) || [];
+
+        if (storages.some(itemExists) === true) {
+            alert("Item has already added to the cart.");
+        }
+
+        window.location.reload();
     }
 
     deleteCartItem = (id) => {
@@ -50,13 +61,75 @@ export default class Cart extends Component {
 
     };
 
+    componentDidMount() {
+        this.getFootwears();
+    }
+
+    getFootwears() {
+        axios.get("http://localhost:8000/footwears").then((response) => {
+            if (response.status === 200) {
+                this.setState({
+                    footwears: response.data.data ? response.data.data : [],
+                });
+            }
+            if (
+                response.data.status === "failed" &&
+                response.data.success === false
+            ) {
+                this.setState({
+                    noDataFound: response.data.message,
+                });
+            }
+        });
+    }
+
     checkout() {
+
         let path = '/checkout';
         this.props.history.push(path);
     }
 
 
     render() {
+
+        const { footwears, addFootwearToCart } = this.state;
+        var footwearSlice = footwears.slice(0, 3);
+        let footwearsDetails = [];
+        if (footwearSlice.length) {
+            footwearsDetails = footwearSlice.map((footwear) => {
+                return (
+                    <div className="col-md-4 col-lg-4 mb-4 text-center" key={footwear.id}>
+                        <div className="product-entry border">
+                            <a href="#" className="prod-img">
+                                <img src={footwear1} className="img-fluid" alt="related products" />
+                            </a>
+                            <div className="desc">
+                                <h2>
+                                    <a href="#">{footwear.name}</a>
+                                </h2>
+                                <span className="price">Rs.{footwear.price}.00</span>
+                                <div className="addtocartbtn">
+                                    <Button variant="primary"
+                                        value={footwear}
+                                        onClick={() =>
+                                            this.addFootwearToCart(
+                                                footwear.id,
+                                                footwear.name,
+                                                footwear.price
+                                            )
+                                        }
+                                    >
+                                        Add to cart {' '}
+                                        <FontAwesomeIcon icon={faCartPlus} />
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            });
+        }
+
 
         if (localStorage.getItem('Detail') !== null) {
 
@@ -223,10 +296,6 @@ export default class Cart extends Component {
                                                         <span>Subtotal:</span>
                                                         <span>Rs.{JSON.parse(localStorage.getItem('subTotal'))}.00</span>
                                                     </p>
-                                                    {/* <p>
-                                                        <span>Delivery:</span>
-                                                        <span>Rs.300.00</span>
-                                                    </p> */}
                                                     <p>
                                                         <span>Discount:</span>
                                                         <span>Rs.0.00</span>
@@ -264,58 +333,7 @@ export default class Cart extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-3 col-lg-3 mb-4 text-center">
-                                <div className="product-entry border">
-                                    <a href="#" className="prod-img">
-                                        <img src={footwear1} className="img-fluid" alt="related products" />
-                                    </a>
-                                    <div className="desc">
-                                        <h2>
-                                            <a href="#">Women's Boots Shoes Maca</a>
-                                        </h2>
-                                        <span className="price">$139.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 col-lg-3 mb-4 text-center">
-                                <div className="product-entry border">
-                                    <a href="#" className="prod-img">
-                                        <img src={footwear1} className="img-fluid" alt="related products" />
-                                    </a>
-                                    <div className="desc">
-                                        <h2>
-                                            <a href="#">Women's Boots Shoes Maca</a>
-                                        </h2>
-                                        <span className="price">$139.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 col-lg-3 mb-4 text-center">
-                                <div className="product-entry border">
-                                    <a href="#" className="prod-img">
-                                        <img src={footwear1} className="img-fluid" alt="related products" />
-                                    </a>
-                                    <div className="desc">
-                                        <h2>
-                                            <a href="#">Women's Boots Shoes Maca</a>
-                                        </h2>
-                                        <span className="price">$139.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 col-lg-3 mb-4 text-center">
-                                <div className="product-entry border">
-                                    <a href="#" className="prod-img">
-                                        <img src={footwear1} className="img-fluid" alt="related products" />
-                                    </a>
-                                    <div className="desc">
-                                        <h2>
-                                            <a href="#">Women's Boots Shoes Maca</a>
-                                        </h2>
-                                        <span className="price">$139.00</span>
-                                    </div>
-                                </div>
-                            </div>
+                            {footwearsDetails}
                         </div>
                     </div>
                 </div>

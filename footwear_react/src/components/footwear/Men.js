@@ -7,6 +7,11 @@ import footwear2 from './images/boysdress.jpg';
 import footwear3 from './images/boyssports.jpg';
 import Footer from './Footer';
 import axios from "axios";
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    Button
+} from "reactstrap";
 
 export default class Men extends Component {
 
@@ -47,6 +52,24 @@ export default class Men extends Component {
         });
     }
 
+    addFootwearToCart = (id, name, price) => {
+
+        var detail = { id: id, name: name, price: price };
+        localStorage.setItem('Detail', JSON.stringify(detail));
+
+        const itemExists = obj => obj.id === detail.id;
+        var storages = JSON.parse(localStorage.getItem('Details')) || [];
+
+        if (storages.some(itemExists) === true) {
+            alert("Item has already added to the cart.");
+        }
+
+
+        let path = '/cart';
+        this.props.history.push(path);
+        window.location.reload();
+    }
+
     componentDidMount() {
         this.getMenFootwears();
     }
@@ -67,6 +90,21 @@ export default class Men extends Component {
                                     <a href="#">{footwear.name}</a>
                                 </h2>
                                 <span className="price">Rs.{footwear.price}.00</span>
+                                <div className="addtocartbtn">
+                                    <Button variant="primary"
+                                        value={footwear}
+                                        onClick={() =>
+                                            this.addFootwearToCart(
+                                                footwear.id,
+                                                footwear.name,
+                                                footwear.price
+                                            )
+                                        }
+                                    >
+                                        Add to cart {' '}
+                                        <FontAwesomeIcon icon={faCartPlus} />
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +115,7 @@ export default class Men extends Component {
         return (
 
             <div className="body">
-                 <div className="breadcrumbs">
+                <div className="breadcrumbs">
                     <div className="container">
                         <div className="row">
                             <Col>
@@ -96,17 +134,17 @@ export default class Men extends Component {
                     <div className="container">
                         <div className="row">
                             <Col>
-                            <div className="breadcrumbs-img" style={{ backgroundImage: `url("${footwear1}")` }}>
-                                <h2>Men's</h2>
-                            </div>
-                            <div className="menu text-center">
-                                <p>
-                                    <a href="#">New Arrivals</a>
-                                    <a href="#">Brst Sellers</a>
-                                    <a href="#">Extended Widths</a>
-                                    <a href="#">Sale</a>
-                                </p>
-                            </div>
+                                <div className="breadcrumbs-img" style={{ backgroundImage: `url("${footwear1}")` }}>
+                                    <h2>Men's</h2>
+                                </div>
+                                <div className="menu text-center">
+                                    <p>
+                                        <a href="#">New Arrivals</a>
+                                        <a href="#">Brst Sellers</a>
+                                        <a href="#">Extended Widths</a>
+                                        <a href="#">Sale</a>
+                                    </p>
+                                </div>
                             </Col>
                         </div>
                     </div>
@@ -326,7 +364,7 @@ export default class Men extends Component {
                             </div>
                             <div className="col-lg-9 col-xl-9">
                                 <div className="row row-pb-md">
-                                    
+
                                     {menFootwearsDetails}
                                 </div>
                             </div>

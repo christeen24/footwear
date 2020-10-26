@@ -10,6 +10,7 @@ import Women from './components/footwear/Women';
 import About from './components/footwear/About';
 import Contact from './components/footwear/Contact';
 import Cart from './components/footwear/Cart';
+import Checkout from './components/footwear/Checkout';
 
 
 
@@ -26,7 +27,7 @@ function App() {
         <Route path="/about"  component={About}/>
         <Route path="/contact"  component={Contact}/>
         <Route path="/cart"  component={Cart}/>
-        <Route path="/cart" component={Cart} />
+        <Route path="/checkout" component={Checkout} />
       </Switch>
       </Router>
       

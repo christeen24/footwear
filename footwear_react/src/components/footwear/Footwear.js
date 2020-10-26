@@ -45,18 +45,20 @@ export default class Footwear extends Component {
 
     addFootwearToCart = (id, name, price) => {
 
-        var detail = { id:id, name:name, price:price };
+        var detail = { id: id, name: name, price: price };
         localStorage.setItem('Detail', JSON.stringify(detail));
 
         const itemExists = obj => obj.id === detail.id;
         var storages = JSON.parse(localStorage.getItem('Details')) || [];
-        
+
         if (storages.some(itemExists) === true) {
             alert("Item has already added to the cart.");
         }
 
+
         let path = '/cart';
         this.props.history.push(path);
+        window.location.reload();
         // window.location.href = window.location.href('http://localhost:3000/cart');
     }
 
